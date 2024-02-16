@@ -1,7 +1,7 @@
 import newspaper
 
 def process_article(url):
-    #try:
+    try:
         article = newspaper.Article(url)
         article.download()
         article.parse()
@@ -9,9 +9,9 @@ def process_article(url):
         article.entities = extract_entities(article.text)
         article.suggestions = get_suggestions(article.text)
         return article
-    #except:
-    #    print("Exception")
-    #    return None
+    except:
+        print("Exception")
+        return None
     
 def extract_entities(text):
     return None
