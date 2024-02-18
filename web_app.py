@@ -17,6 +17,8 @@ if article:
     st.write(article.publish_date)
     st.write("Resumen:")
     st.write(article.summary)
+    st.write("sumy:")
+    st.write(article.summary_from_sumy)
     st.write("Entidades presentes:")
     st.write(article.entities)
     st.write("Noticias similares:")

@@ -9,3 +9,4 @@ for year in range(2017, 2024):
 
 #para comprobar correcta descarga
 print(len(bbc_news_dataset['2017-01']['train']))
+input()
