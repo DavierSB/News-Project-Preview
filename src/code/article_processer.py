@@ -4,8 +4,8 @@ import spacy
 from sumy.parsers.plaintext import PlaintextParser
 from sumy.nlp.tokenizers import Tokenizer
 from sumy.summarizers.lsa import LsaSummarizer
-
-def process_article(url):
+from searching import Corpus, search
+def process_article(url, corpus : Corpus):
     #try:
         article = newspaper.Article(url)
         article.download()
@@ -13,7 +13,7 @@ def process_article(url):
         article.nlp()
         article.summary_from_sumy = get_summary(article.text)
         article.entities = extract_entities(article.text)
-        article.suggestions = get_suggestions(article.text)
+        article.suggestions = get_suggestions(article.text, corpus)
         return article
     #except:
     #    print("Exception")
@@ -34,8 +34,8 @@ def extract_entities(text):
             conjunto.add(entitie.text + " : " + entitie.label_)
     return list(conjunto)
 
-def get_suggestions(text):
-    return None
+def get_suggestions(text, corpus : Corpus):
+    return search(text, corpus)
 
 #nltk.download('averaged_perceptron_tagger')
 #nltk.download('maxent_ne_chunker')
