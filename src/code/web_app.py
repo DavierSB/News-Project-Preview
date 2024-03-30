@@ -6,16 +6,23 @@ from typing import List
 from loading_no_processing_news import New,  load_news_from_huggins
 from pre_processing import pre_process
 
-news_text = load_news_from_huggins()
-pre_process(news_text)
-corpus = load_all_dates()
+
+try:
+    corpus = load_all_dates()
+except:
+    news_text = load_news_from_huggins()
+    pre_process(news_text)
+    corpus = load_all_dates()
+
 
 st.write("Hola!")
 st.write("En esta web app, nos das el link de una noticia y te mostraremos todo lo que quieras saber sobre ella")
 
 url = st.text_input('Enter a news url')
 
-article = article_processer.process_article(url, corpus)
+article = None
+if url:
+    article = article_processer.process_article(url, corpus)
 
 def print_suggestion(suggestions : List[New]):
     titles = []
@@ -30,17 +37,19 @@ def print_suggestion(suggestions : List[New]):
     st.table(df)
 
 if article:
-    st.write("El titulo es:")
+    st.markdown("<h3>El título es:</h3>", unsafe_allow_html= True)
     st.write(article.title)
-    st.write("Los autores son:")
-    st.write(article.authors)
-    st.write("Fue publicado el:")
+    st.markdown("<h3>Los autores son</h3>", unsafe_allow_html= True)
+    for author in article.authors:
+        st.write(author)
+    st.markdown("<h3>Fue publicado el</h3>", unsafe_allow_html= True)
     st.write(article.publish_date)
-    st.write("Resumen:")
+    st.markdown("<h3>Resumen</h3>", unsafe_allow_html= True)
     st.write(article.summary)
-    st.write("sumy:")
+    st.markdown("<h3>Resumen con sumy</h3>", unsafe_allow_html= True)
     st.write(article.summary_from_sumy)
-    st.write("Entidades presentes:")
-    st.write(article.entities)
-    st.write("Noticias similares:")
+    st.markdown("<h3>Las entidades que aparecen son</h3>", unsafe_allow_html= True)
+    for entity in article.entities:
+        st.write(entity)
+    st.markdown("<h3>Artículos Similares</h3>", unsafe_allow_html= True)
     print_suggestion(article.suggestions)
